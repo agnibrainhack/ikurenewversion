@@ -14,14 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#FFFFFF"
         />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="?attr/colorPrimary"
+        app:tabTextColor="#FFFFFF"
+        app:tabSelectedTextColor="#9ed24f"
+        app:tabIndicatorColor="#e63b3b"
+        android:background="@color/colorPrimary"
         app:tabMode="scrollable"
         />
 

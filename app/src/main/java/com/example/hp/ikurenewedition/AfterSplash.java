@@ -28,6 +28,7 @@ public class AfterSplash extends AppCompatActivity
     Intent i;
     EditText editText;
     private boolean transfer;
+    View item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class AfterSplash extends AppCompatActivity
         setSupportActionBar(toolbar);
         i = getIntent();
         editText = findViewById(R.id.edittext);
+        item = findViewById(R.id.action_settings);
         buttonScan = (Button) findViewById(R.id.button);
         qrScan = new IntentIntegrator(this);
 
@@ -45,7 +47,7 @@ public class AfterSplash extends AppCompatActivity
             public void onClick(View view) {
                 if(!transfer)
                 qrScan.initiateScan();
-                else {
+                else if(transfer) {
                     String patient = String.valueOf(editText.getText());
                     Intent intent = new Intent(AfterSplash.this,NetworkActivity.class);
                     intent.putExtra("Patient_no",patient);
@@ -104,9 +106,20 @@ public class AfterSplash extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
            // Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();// do your work here
-            buttonScan.setText("Check Details");
-            editText.setVisibility(View.VISIBLE);
-            transfer = true;
+           if(times == 0) {
+               buttonScan.setText("Check Details");
+               editText.setVisibility(View.VISIBLE);
+               transfer = true;
+               item.setTitle("Login By Scanning The QR");
+               times++;
+           }
+           else if(times != 0){
+               buttonScan.setText("Scan QR");
+               editText.setVisibility(View.INVISIBLE);
+               transfer = false;
+               item.setTitle("Login with your card number");
+               times = 0;
+           }
 
 
         }

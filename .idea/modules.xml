@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ikurenewedition.iml" filepath="$PROJECT_DIR$/ikurenewedition.iml" />
+      <module fileurl="file://C:\Users\hp\Desktop\ikurenewversion\app\app.iml" filepath="C:\Users\hp\Desktop\ikurenewversion\app\app.iml" />
+      <module fileurl="file://C:\Users\hp\Desktop\ikurenewversion\ikurenewedition.iml" filepath="C:\Users\hp\Desktop\ikurenewversion\ikurenewedition.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ikurenewversion.iml" filepath="$PROJECT_DIR$/ikurenewversion.iml" />
     </modules>
   </component>
 </project>

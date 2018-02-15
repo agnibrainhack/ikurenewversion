@@ -32,7 +32,7 @@ public class OnePerson extends AppCompatActivity {
             "B.P Reports",
             "Sugar Reports",
             "Vital Reports",
-            "Schedule Checkups"
+            "Scheduled Checkups"
     };
 
     // The fragments that are used as the individual pages
@@ -61,6 +61,7 @@ public class OnePerson extends AppCompatActivity {
         // Connect the ViewPager to our custom PagerAdapter. The PagerAdapter supplies the pages
         // (fragments) to the ViewPager, which the ViewPager needs to display.
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mViewPager.setOffscreenPageLimit(6);
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 
         // Connect the tabs with the ViewPager (the setupWithViewPager method does this for us in

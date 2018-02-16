@@ -1,4 +1,4 @@
-package com.example.hp.ikurenewedition.earthquakeModel;
+package com.example.hp.ikurenewedition.pojodatamodels;
 
 /**
  * Created by hp on 10-01-2018.

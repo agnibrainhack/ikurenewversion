@@ -1,7 +1,6 @@
 package com.example.hp.ikurenewedition.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,7 @@ import com.example.hp.ikurenewedition.DisplayPresActivity;
 import com.example.hp.ikurenewedition.R;
 import com.example.hp.ikurenewedition.adapters.PresAdapter;
 import com.example.hp.ikurenewedition.dataclass.Data_class_two;
-import com.example.hp.ikurenewedition.earthquakeModel.PresListDetail;
+import com.example.hp.ikurenewedition.pojodatamodels.PresListDetail;
 import com.example.hp.ikurenewedition.rest.ApiClient;
 import com.example.hp.ikurenewedition.rest.ApiInterface;
 

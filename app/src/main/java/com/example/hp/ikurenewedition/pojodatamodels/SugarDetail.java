@@ -1,19 +1,19 @@
-package com.example.hp.ikurenewedition.earthquakeModel;
-
-/**
- * Created by hp on 31-01-2018.
- */
+package com.example.hp.ikurenewedition.pojodatamodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class DifferentVitals {
+/**
+ * Created by hp on 02-02-2018.
+ */
 
-    @SerializedName("vitaldetails")
+public class SugarDetail {
+
+    @SerializedName("sugarlist")
     @Expose
-    private List<Vitaldetail> vitaldetails = null;
+    private List<Sugarlist> sugarlist = null;
     @SerializedName("error")
     @Expose
     private Boolean error;
@@ -21,12 +21,12 @@ public class DifferentVitals {
     @Expose
     private String message;
 
-    public List<Vitaldetail> getVitaldetails() {
-        return vitaldetails;
+    public List<Sugarlist> getSugarlist() {
+        return sugarlist;
     }
 
-    public void setVitaldetails(List<Vitaldetail> vitaldetails) {
-        this.vitaldetails = vitaldetails;
+    public void setSugarlist(List<Sugarlist> sugarlist) {
+        this.sugarlist = sugarlist;
     }
 
     public Boolean getError() {
@@ -44,4 +44,5 @@ public class DifferentVitals {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

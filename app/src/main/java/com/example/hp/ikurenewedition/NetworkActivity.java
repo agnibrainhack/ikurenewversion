@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.hp.ikurenewedition.adapters.NotesAdapter;
 import com.example.hp.ikurenewedition.dataclass.Data_class;
-import com.example.hp.ikurenewedition.earthquakeModel.CardDetails;
+import com.example.hp.ikurenewedition.pojodatamodels.CardDetails;
 import com.example.hp.ikurenewedition.rest.ApiClient;
 import com.example.hp.ikurenewedition.rest.ApiInterface;
 

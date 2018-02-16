@@ -1,4 +1,4 @@
-package com.example.hp.ikurenewedition.earthquakeModel;
+package com.example.hp.ikurenewedition.pojodatamodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

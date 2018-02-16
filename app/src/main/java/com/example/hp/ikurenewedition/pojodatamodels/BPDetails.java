@@ -1,4 +1,4 @@
-package com.example.hp.ikurenewedition.earthquakeModel;
+package com.example.hp.ikurenewedition.pojodatamodels;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,14 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by hp on 02-02-2018.
+ * Created by hp on 10-02-2018.
  */
 
-public class SugarDetail {
+public class BPDetails {
 
-    @SerializedName("sugarlist")
+    @SerializedName("bplist")
     @Expose
-    private List<Sugarlist> sugarlist = null;
+    private List<Bplist> bplist = null;
     @SerializedName("error")
     @Expose
     private Boolean error;
@@ -21,12 +21,12 @@ public class SugarDetail {
     @Expose
     private String message;
 
-    public List<Sugarlist> getSugarlist() {
-        return sugarlist;
+    public List<Bplist> getBplist() {
+        return bplist;
     }
 
-    public void setSugarlist(List<Sugarlist> sugarlist) {
-        this.sugarlist = sugarlist;
+    public void setBplist(List<Bplist> bplist) {
+        this.bplist = bplist;
     }
 
     public Boolean getError() {

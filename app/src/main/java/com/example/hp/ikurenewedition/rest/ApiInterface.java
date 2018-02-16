@@ -1,16 +1,17 @@
 package com.example.hp.ikurenewedition.rest;
 
 
-import com.example.hp.ikurenewedition.earthquakeModel.BPDetails;
-import com.example.hp.ikurenewedition.earthquakeModel.CardDetails;
-import com.example.hp.ikurenewedition.earthquakeModel.DifferentVitals;
-import com.example.hp.ikurenewedition.earthquakeModel.EcgListDetail;
-import com.example.hp.ikurenewedition.earthquakeModel.PatientDetails;
-import com.example.hp.ikurenewedition.earthquakeModel.PresListDetail;
-import com.example.hp.ikurenewedition.earthquakeModel.ShowTheEcg;
-import com.example.hp.ikurenewedition.earthquakeModel.ShowTheImage;
-import com.example.hp.ikurenewedition.earthquakeModel.SugarDetail;
-import com.example.hp.ikurenewedition.earthquakeModel.VitalTime;
+import com.example.hp.ikurenewedition.pojodatamodels.BPDetails;
+import com.example.hp.ikurenewedition.pojodatamodels.CardDetails;
+import com.example.hp.ikurenewedition.pojodatamodels.CheckupDetails;
+import com.example.hp.ikurenewedition.pojodatamodels.DifferentVitals;
+import com.example.hp.ikurenewedition.pojodatamodels.EcgListDetail;
+import com.example.hp.ikurenewedition.pojodatamodels.PatientDetails;
+import com.example.hp.ikurenewedition.pojodatamodels.PresListDetail;
+import com.example.hp.ikurenewedition.pojodatamodels.ShowTheEcg;
+import com.example.hp.ikurenewedition.pojodatamodels.ShowTheImage;
+import com.example.hp.ikurenewedition.pojodatamodels.SugarDetail;
+import com.example.hp.ikurenewedition.pojodatamodels.VitalTime;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -54,6 +55,9 @@ public interface ApiInterface {
 
     @GET("vital/bplist")
     Call<BPDetails> getDetails10(@Query("pid") String pid);
+
+    @GET("vital/checkuprequestlist")
+    Call<CheckupDetails> getDetails11(@Query("pid") String pid);
 
 
 

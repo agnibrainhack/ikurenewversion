@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.hp.ikurenewedition.adapters.VitalsAdapter;
 import com.example.hp.ikurenewedition.dataclass.Data_class_three;
-import com.example.hp.ikurenewedition.earthquakeModel.DifferentVitals;
+import com.example.hp.ikurenewedition.pojodatamodels.DifferentVitals;
 import com.example.hp.ikurenewedition.rest.ApiClient;
 import com.example.hp.ikurenewedition.rest.ApiInterface;
 

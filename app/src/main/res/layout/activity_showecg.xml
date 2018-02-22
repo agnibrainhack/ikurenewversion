@@ -1,50 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/pdfView"
             android:layout_width="400dp"
-            android:layout_height="500dp"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/save"
             android:layout_marginTop="9dp"
             android:scaleType="fitXY" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/pdfView"
-        android:layout_alignTop="@+id/pdfView"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="7dp"
-        android:clickable="true"
-        android:elevation="24dp"
-        android:src="@drawable/printer"
-        app:layout_anchor="@id/pdfView"
-        app:layout_anchorGravity="bottom|right|end"
-        tools:targetApi="lollipop" />
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="400dp"
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/menu"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fab"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="434dp"
-            android:background="@drawable/circ_button"
-            android:elevation="8dp"
-            android:gravity="center"
-            android:text="Save The ECG Report and View"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:targetApi="lollipop" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            fab:menu_animationDelayPerItem="50"
+            fab:menu_backgroundColor="@android:color/transparent"
+            fab:menu_buttonSpacing="0dp"
+            fab:menu_colorNormal="@color/colorPrimary"
+            fab:menu_colorPressed="@color/colorPrimaryDark"
+            fab:menu_colorRipple="@color/colorAccent"
+            fab:menu_fab_size="normal"
+            fab:menu_icon="@drawable/fab_add"
+            fab:menu_openDirection="up"
+            fab:menu_shadowColor="#66000000"
+            fab:menu_shadowRadius="4dp"
+            fab:menu_shadowXOffset="1dp"
+            fab:menu_shadowYOffset="3dp"
+            fab:menu_showShadow="true">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/saveit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/view"
+                app:fab_label="View"
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_colorPressed="@color/colorPrimaryDark"
+                fab:fab_colorRipple="@color/colorAccent"
+                fab:fab_size="mini" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/print"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/printer"
+                app:fab_label="Print"
+                fab:fab_colorNormal="@color/colorPrimary"
+                fab:fab_colorPressed="@color/colorPrimaryDark"
+                fab:fab_colorRipple="@color/colorAccent"
+                fab:fab_size="mini" />
+
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

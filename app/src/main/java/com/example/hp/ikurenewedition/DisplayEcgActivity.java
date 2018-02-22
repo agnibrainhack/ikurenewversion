@@ -42,18 +42,18 @@ import retrofit2.Response;
  */
 
 public class DisplayEcgActivity extends AppCompatActivity {
+    public File ecgpdf;
     Intent i;
     String id;
     ProgressDialog progressDialog;
-    public File ecgpdf;
     //PDFView pdfView;
     ImageView imageView;
-    Button save,print;
+    View save, print;
 
     byte[] imageByteArray;
     String timestamp;
     String downurl;
-    FloatingActionButton floatingActionButton;
+    View floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +62,8 @@ public class DisplayEcgActivity extends AppCompatActivity {
         i = getIntent();
         id = i.getStringExtra("id");
         imageView = (ImageView)findViewById(R.id.pdfView);
-        save =  (Button)findViewById(R.id.save);
-       floatingActionButton = (FloatingActionButton)findViewById(R.id.fab);
+        save = findViewById(R.id.saveit);
+        floatingActionButton = findViewById(R.id.print);
         save.setVisibility(View.INVISIBLE);
         save.setOnClickListener(new View.OnClickListener() {
             @Override

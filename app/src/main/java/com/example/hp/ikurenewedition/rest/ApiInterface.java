@@ -4,6 +4,7 @@ package com.example.hp.ikurenewedition.rest;
 import com.example.hp.ikurenewedition.pojodatamodels.BPDetails;
 import com.example.hp.ikurenewedition.pojodatamodels.CardDetails;
 import com.example.hp.ikurenewedition.pojodatamodels.CheckupDetails;
+import com.example.hp.ikurenewedition.pojodatamodels.CheckupStatus;
 import com.example.hp.ikurenewedition.pojodatamodels.DifferentVitals;
 import com.example.hp.ikurenewedition.pojodatamodels.EcgListDetail;
 import com.example.hp.ikurenewedition.pojodatamodels.PatientDetails;
@@ -59,6 +60,9 @@ public interface ApiInterface {
     @GET("vital/checkuprequestlist")
     Call<CheckupDetails> getDetails11(@Query("pid") String pid);
 
+    @GET("vital/vitalsrequestdetails")
+    Call<CheckupStatus> getDetails12(@Query("pid") String pid,
+                                     @Query("timestamp") String timestamp);
 
 
 

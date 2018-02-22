@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,22 +31,41 @@ import retrofit2.Response;
  * Created by root on 15/2/18.
  */
 
-public class VitalsFragment extends android.support.v4.app.Fragment {
+public class VitalsFragment extends android.support.v4.app.Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     String pid;
+    ArrayList<Data_class_three> dy = new ArrayList<Data_class_three>();
+    View rootView;
+    SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog progressDialog;
     private EcgAdapter ecgAdapter;
     private ListView EcgListView;
-    ArrayList<Data_class_three> dy = new ArrayList<Data_class_three>();
-    View rootView;
+    private boolean start;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_vitals, container, false);
 
         pid = getActivity().getIntent().getStringExtra("patient");
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorred,
+                R.color.colorAccent);
+
         init();
         return rootView;
+    }
+
+    @Override
+    public void onRefresh() {
+        //fetchMovies();
+        start = true;
+        dy.clear();
+        EcgListView.setAdapter(null);
+        callAPI1();
+
     }
 
     private void init() {
@@ -65,13 +85,19 @@ public class VitalsFragment extends android.support.v4.app.Fragment {
 
 
     private void callAPI1() {
-        progressDialog.show();
+        if (!start)
+            progressDialog.show();
+        else
+            swipeRefreshLayout.setRefreshing(true);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<VitalTime> call = apiService.getDetails7(pid);
         call.enqueue(new Callback<VitalTime>() {
             @Override
             public void onResponse(Call<VitalTime> call, final Response<VitalTime> result) {
-                progressDialog.dismiss();
+                if (!start)
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 if(result.body().getError()){
                     bullshit();
                 }
@@ -118,7 +144,10 @@ public class VitalsFragment extends android.support.v4.app.Fragment {
 
             @Override
             public void onFailure(Call<VitalTime> call, Throwable t) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 bullshit();
             }
         });

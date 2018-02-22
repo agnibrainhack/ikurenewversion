@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +31,42 @@ import retrofit2.Response;
  * Created by root on 15/2/18.
  */
 
-public class ECGFragment extends android.support.v4.app.Fragment {
+public class ECGFragment extends android.support.v4.app.Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View rootView;
-    private String pid;
     ProgressDialog progressDialog;
     ArrayList<Data_class_three> dy = new ArrayList<Data_class_three>();
     EcgAdapter ecgAdapter;
     ListView EcgListView;
+    SwipeRefreshLayout swipeRefreshLayout;
+    private String pid;
+    private boolean start;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_ecg, container, false);
         pid = getActivity().getIntent().getStringExtra("patient");
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorred,
+                R.color.colorAccent);
+
         init();
         return rootView;
 
     }
+
+    @Override
+    public void onRefresh() {
+        //fetchMovies();
+        start = true;
+        dy.clear();
+        EcgListView.setAdapter(null);
+        callAPI1();
+
+    }
+
     private void init() {
         //retrofitRepository=new RetrofitRepository();
         progressDialog = new ProgressDialog(getActivity());
@@ -61,13 +83,19 @@ public class ECGFragment extends android.support.v4.app.Fragment {
     }
 
     private void callAPI1() {
-        progressDialog.show();
+        if (!start)
+            progressDialog.show();
+        else
+            swipeRefreshLayout.setRefreshing(true);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<EcgListDetail> call = apiService.getDetails5(pid);
         call.enqueue(new Callback<EcgListDetail>() {
             @Override
             public void onResponse(Call<EcgListDetail> call, final Response<EcgListDetail> result) {
-                progressDialog.dismiss();
+                if (!start)
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 if(result.body().getError()){
                     bullshit();
                 }
@@ -114,7 +142,10 @@ public class ECGFragment extends android.support.v4.app.Fragment {
 
             @Override
             public void onFailure(Call<EcgListDetail> call, Throwable t) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 bullshit();
             }
         });

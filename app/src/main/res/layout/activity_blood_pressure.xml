@@ -16,18 +16,25 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/list_of_pressure"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:paddingBottom="4dp"
+        android:layout_below="@id/header">
 
-        >
+        <ListView
+            android:id="@+id/list_of_pressure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:paddingBottom="4dp"
 
-    </ListView>
+            >
+
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"

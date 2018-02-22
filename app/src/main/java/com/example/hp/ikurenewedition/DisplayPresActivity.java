@@ -38,17 +38,17 @@ import retrofit2.Response;
  */
 
 public class DisplayPresActivity extends AppCompatActivity {
+    public File prespdf;
+    public String downurl;
     Intent i;
     String id;
     ImageView img;
     ProgressDialog progressDialog;
-    Button save,print;
-    public File prespdf;
-    public String downurl;
+    Button print;
     byte[] imageByteArray;
     boolean what_do_you_want_to_do =false;
     String timestamp;
-    FloatingActionButton floatingActionButton;
+    View floatingActionButton, save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class DisplayPresActivity extends AppCompatActivity {
         i = getIntent();
         id = i.getStringExtra("img");
         img = (ImageView)findViewById(R.id.showimg);
-        save = (Button)findViewById(R.id.save);
+        save = findViewById(R.id.save);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +68,7 @@ public class DisplayPresActivity extends AppCompatActivity {
 
         });
         //Toast.makeText(DisplayPresActivity.this, id, Toast.LENGTH_LONG).show();
-        floatingActionButton = (FloatingActionButton)findViewById(R.id.fab);
+        floatingActionButton = findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

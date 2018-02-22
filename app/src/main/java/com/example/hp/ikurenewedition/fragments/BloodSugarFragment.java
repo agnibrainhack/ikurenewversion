@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ import retrofit2.Response;
  * Created by root on 15/2/18.
  */
 
-public class BloodSugarFragment extends android.support.v4.app.Fragment {
+public class BloodSugarFragment extends android.support.v4.app.Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View rootView;
     String pid;
     RelativeLayout relativeLayout;
@@ -48,6 +49,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment {
     String[] f1 = new String[5];
     String[] f2 = new String[5];
     String[] f3 = new String[5];
+    SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog progressDialog;
     private ListView SugarListView;
     private ArrayList<Data_class_four> dy = new ArrayList<Data_class_four>();
@@ -59,6 +61,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment {
     private String[] p_d = new String[5];
     private View floatingActionButtonrandom;
     private String[] r_d = new String[5];
+    private boolean start;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +72,13 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment {
         k1 = k2 = k3 = 0;
         relativeLayout = rootView.findViewById(R.id.changerelative);
         floatingActionButtonrandom = rootView.findViewById(R.id.random_render);
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorred,
+                R.color.colorAccent);
+
 
         floatingActionButtonrandom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +125,17 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment {
         return rootView;
     }
 
+    @Override
+    public void onRefresh() {
+        //fetchMovies();
+        start = true;
+        dy.clear();
+        SugarListView.setAdapter(null);
+        callAPI1();
+
+    }
+
+
     private void init() {
         //retrofitRepository=new RetrofitRepository();
         progressDialog = new ProgressDialog(getActivity());
@@ -132,13 +153,19 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment {
 
 
     private void callAPI1() {
-        progressDialog.show();
+        if (!start)
+            progressDialog.show();
+        else
+            swipeRefreshLayout.setRefreshing(true);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<SugarDetail> call = apiService.getDetails9(pid);
         call.enqueue(new Callback<SugarDetail>() {
             @Override
             public void onResponse(Call<SugarDetail> call, final Response<SugarDetail> result) {
-                progressDialog.dismiss();
+                if (!start)
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 if(result.body().getError()){
                     bullshit();
                 }
@@ -204,7 +231,10 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment {
 
             @Override
             public void onFailure(Call<SugarDetail> call, Throwable t) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 bullshit();
             }
         });

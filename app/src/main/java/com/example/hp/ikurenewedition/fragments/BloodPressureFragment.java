@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,10 @@ import retrofit2.Response;
  * Created by root on 15/2/18.
  */
 
-public class BloodPressureFragment extends android.support.v4.app.Fragment{
+public class BloodPressureFragment extends android.support.v4.app.Fragment implements SwipeRefreshLayout.OnRefreshListener {
     View rootView;
     int k1;
+    SwipeRefreshLayout swipeRefreshLayout;
     private String pid;
     private ProgressDialog progressDialog;
     private ArrayList<Data_class_five> dy = new ArrayList<>();
@@ -43,6 +45,8 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment{
     private ArrayList<String> diastolic = new ArrayList<>();
     private ArrayList<String> timestamp = new ArrayList<>();
     private View floatingactionbutton;
+    private boolean start;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          rootView = inflater.inflate(R.layout.activity_blood_pressure, container, false);
@@ -61,8 +65,25 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment{
                 startActivity(k);
             }
         });
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorred,
+                R.color.colorAccent);
+
         init();
          return rootView;
+    }
+
+    @Override
+    public void onRefresh() {
+        //fetchMovies();
+        start = true;
+        dy.clear();
+        BpListView.setAdapter(null);
+        callAPI1();
+
     }
 
     private void init() {
@@ -82,13 +103,19 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment{
 
 
     private void callAPI1() {
-        progressDialog.show();
+        if (!start)
+            progressDialog.show();
+        else
+            swipeRefreshLayout.setRefreshing(true);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<BPDetails> call = apiService.getDetails10(pid);
         call.enqueue(new Callback<BPDetails>() {
             @Override
             public void onResponse(Call<BPDetails> call, final Response<BPDetails> result) {
-                progressDialog.dismiss();
+                if (!start)
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 if (result.body().getError()) {
                     bullshit();
                 } else {
@@ -146,7 +173,10 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment{
 
             @Override
             public void onFailure(Call<BPDetails> call, Throwable t) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 bullshit();
             }
         });

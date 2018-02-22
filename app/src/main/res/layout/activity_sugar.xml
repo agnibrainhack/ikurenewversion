@@ -79,17 +79,25 @@
             android:text="mg/dl"
             android:textSize="14sp" />
     </LinearLayout>
-    <ListView
-        android:id="@+id/list_of_sugar"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/metrics"
-        android:divider="@null"
-        android:dividerHeight="0dp"
+        android:layout_below="@id/metrics">
 
-        >
+        <ListView
+            android:id="@+id/list_of_sugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swipe_refresh_layout"
+            android:divider="@null"
+            android:dividerHeight="0dp"
 
-    </ListView>
+            >
+
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <com.github.clans.fab.FloatingActionMenu

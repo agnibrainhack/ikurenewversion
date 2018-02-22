@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,20 +31,41 @@ import retrofit2.Response;
  * Created by root on 15/2/18.
  */
 
-public class PrescriptionFragment extends android.support.v4.app.Fragment {
-    private String pid;
+public class PrescriptionFragment extends android.support.v4.app.Fragment implements SwipeRefreshLayout.OnRefreshListener {
     ProgressDialog progressDialog;
     ArrayList<Data_class_two> dy=new ArrayList<Data_class_two>();
     PresAdapter presAdapter;
     View rootView;
     ListView PresListView;
+    private String pid;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean start;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_prescription, container, false);
         pid = getActivity().getIntent().getStringExtra("patient");
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorred,
+                R.color.colorAccent);
+
         init();
         return rootView;
     }
+
+    @Override
+    public void onRefresh() {
+        //fetchMovies();
+        start = true;
+        dy.clear();
+        PresListView.setAdapter(null);
+        callAPI1();
+
+    }
+
 
     private void init(){
         //retrofitRepository=new RetrofitRepository();
@@ -61,13 +83,19 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment {
 
     }
     private void callAPI1(){
-        progressDialog.show();
+        if (!start)
+            progressDialog.show();
+        else
+            swipeRefreshLayout.setRefreshing(true);
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Call<PresListDetail> call = apiService.getDetails3(pid);
         call.enqueue(new Callback<PresListDetail>() {
             @Override
             public void onResponse(Call<PresListDetail> call, final Response<PresListDetail> result) {
-                progressDialog.dismiss();
+                if (!start)
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 if(result.body().getError()){
                     bullshit();
                 }
@@ -119,7 +147,10 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment {
 
             @Override
             public void onFailure(Call<PresListDetail> call, Throwable t) {
-                progressDialog.dismiss();
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                else
+                    swipeRefreshLayout.setRefreshing(false);
                 //Toast.makeText(NetworkActivity.this,"Network error",Toast.LENGTH_LONG).show();
                 bullshit();
             }

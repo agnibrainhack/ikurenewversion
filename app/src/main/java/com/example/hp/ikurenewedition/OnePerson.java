@@ -27,22 +27,22 @@ public class OnePerson extends AppCompatActivity {
 
     // Titles of the individual pages (displayed in tabs)
     private final String[] PAGE_TITLES = new String[]{
-            "ECG Reports",
+            "Checkups",
             "Prescriptions",
             "B.P Reports",
             "Sugar Reports",
             "Vital Reports",
-            "Scheduled Checkups"
+            "ECG Reports"
     };
 
     // The fragments that are used as the individual pages
     private final android.support.v4.app.Fragment[] PAGES = new android.support.v4.app.Fragment[]{
-            new ECGFragment(),
+            new CheckupFragment(),
             new PrescriptionFragment(),
             new BloodPressureFragment(),
             new BloodSugarFragment(),
             new VitalsFragment(),
-            new CheckupFragment()
+            new ECGFragment()//
 
     };
 

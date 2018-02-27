@@ -1,9 +1,16 @@
 package com.example.hp.ikurenewedition;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -67,7 +74,7 @@ public class AfterSplash extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Swipe right and click on any option to contact us", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Swipe right and click on proper option to contact us", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -136,15 +143,22 @@ public class AfterSplash extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+         if (id == R.id.block) {
+             if(isPermissionGranted()){
+                 call_action("9153518429");
+             }
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.check) {
+             if(isPermissionGranted()){
+                 call_action("03340634188");
+             }
 
-        }  else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        }  else if (id == R.id.more) {
+             String url = "http://www.ikuretechsoft.com/";
+             Intent i = new Intent(Intent.ACTION_VIEW);
+             i.setData(Uri.parse(url));
+             startActivity(i);
 
         }
 
@@ -152,6 +166,64 @@ public class AfterSplash extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+    @SuppressLint("MissingPermission")
+    public void call_action(String str){
+
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + str));
+        startActivity(callIntent);
+    }
+
+
+
+    public  boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+
+            case 1: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

@@ -6,24 +6,17 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/block"
+                android:icon="@drawable/phone_block"
+                android:title="Call to Block Your Card"
+                />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/check"
+                android:icon="@drawable/callcheck"
+                android:title="Call For A Checkup " />
             <item
-                android:id="@+id/nav_camera"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="Report A lost Card" />
-            <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="Contact For A Checkup " />
-            <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
+                android:id="@+id/more"
+                android:icon="@drawable/moreikure"
                 android:title="More About Ikure" />
 
         </menu>

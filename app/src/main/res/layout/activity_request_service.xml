@@ -1,6 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"
+        android:id="@+id/card1"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:id="@+id/image1"
+                android:src="@drawable/ecgtest"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/image1"
+                android:layout_height="80dp">
+            <Button
+                android:id="@+id/selectdate1"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="21dp"
 
-</android.support.constraint.ConstraintLayout>
+                android:layout_marginTop="20dp"
+                android:textSize="11sp"
+                android:textColor="#adafb9"
+
+                android:text="Select Date"
+
+                android:background="@drawable/circ_date_back"
+
+                />
+
+                <Button
+                    android:id="@+id/selecttime1"
+
+                    android:layout_width="80dp"
+                    android:text="Set time"
+                    android:layout_height="30dp"
+                    android:textSize="11sp"
+                    android:background="@drawable/circ_time_back"
+                    android:layout_marginBottom="9dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#9b9daa"
+                    android:textStyle="bold"
+
+                    android:layout_marginStart="12dp" />
+
+                <Button
+                    android:id="@+id/submit1"
+
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginBottom="9dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/circ_submit_back"
+                    android:text="Submit"
+                     />
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="16dp"
+            android:id="@+id/card2"
+            android:layout_below="@+id/card1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/image2"
+                    android:src="@drawable/bptest"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/image2"
+                    android:layout_height="80dp">
+                    <Button
+                        android:id="@+id/selectdate2"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="21dp"
+                        android:textColor="#adafb9"
+                        android:layout_marginTop="20dp"
+
+                        android:background="@drawable/circ_date_back"
+                        android:textSize="11sp"
+
+                        android:text="Select Date"
+
+                        />
+
+                    <Button
+                        android:id="@+id/selecttime2"
+
+                        android:layout_width="80dp"
+                        android:text="Set time"
+                        android:layout_height="30dp"
+                        android:textSize="11sp"
+                        android:background="@drawable/circ_time_back"
+                        android:textColor="#9b9daa"
+                        android:textStyle="bold"
+
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                    <Button
+                        android:id="@+id/submit2"
+                        android:layout_width="110dp"
+                        android:text="Submit"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circ_submit_back"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="16dp"
+            android:id="@+id/card3"
+            android:layout_below="@+id/card2"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/image3"
+                    android:src="@drawable/sugartest"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/image3"
+                    android:layout_height="80dp">
+                    <Button
+                        android:id="@+id/selectdate3"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="21dp"
+                        android:textColor="#adafb9"
+                        android:layout_marginTop="20dp"
+                        android:textSize="11sp"
+                        android:background="@drawable/circ_date_back"
+
+                        android:text="Select Date"
+                        />
+
+                    <Button
+                        android:id="@+id/selecttime3"
+                        android:textColor="#9b9daa"
+                        android:textStyle="bold"
+                        android:textSize="11sp"
+                        android:layout_width="80dp"
+                        android:text="Set time"
+                        android:layout_height="30dp"
+                        android:background="@drawable/circ_time_back"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                    <Button
+                        android:id="@+id/submit3"
+                        android:layout_width="110dp"
+                        android:text="Submit"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circ_submit_back"
+
+
+                        android:layout_height="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="16dp"
+            android:id="@+id/card4"
+            android:layout_below="@+id/card3"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/image4"
+                    android:src="@drawable/vitaltest"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/image4"
+                    android:layout_height="80dp">
+                    <Button
+                        android:id="@+id/selectdate4"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="21dp"
+                        android:textColor="#adafb9"
+                        android:layout_marginTop="20dp"
+                        android:textSize="11sp"
+
+                        android:background="@drawable/circ_date_back"
+
+
+                        android:text="Select Date"
+                        />
+
+                    <Button
+                        android:id="@+id/selecttime4"
+                        android:textColor="#9b9daa"
+                        android:textStyle="bold"
+                        android:textSize="11sp"
+                        android:layout_width="80dp"
+                        android:text="Set time"
+                        android:layout_height="30dp"
+                        android:background="@drawable/circ_time_back"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                    <Button
+                        android:id="@+id/submit4"
+                        android:layout_width="110dp"
+                        android:text="Submit"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circ_submit_back"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="16dp"
+            android:id="@+id/card5"
+            android:layout_below="@+id/card4"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:id="@+id/image5"
+                    android:src="@drawable/haemoglobintest"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_below="@+id/image5"
+                    android:layout_height="80dp">
+                    <Button
+                        android:id="@+id/selectdate5"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="21dp"
+
+                        android:layout_marginTop="20dp"
+                        android:textSize="11sp"
+
+                        android:background="@drawable/circ_date_back"
+                        android:textColor="#9b9daa"
+
+                        android:text="Select Date"
+                        />
+
+                    <Button
+                        android:id="@+id/selecttime5"
+
+                        android:textStyle="bold"
+                        android:textSize="11sp"
+                        android:textColor="#9b9daa"
+                        android:layout_width="80dp"
+                        android:text="Set time"
+                        android:layout_height="30dp"
+                        android:background="@drawable/circ_time_back"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                    <Button
+                        android:id="@+id/submit5"
+                        android:layout_width="110dp"
+                        android:text="Submit"
+                        android:textColor="#FFFFFF"
+                        android:background="@drawable/circ_submit_back"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="9dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="12dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </RelativeLayout>
+</ScrollView>

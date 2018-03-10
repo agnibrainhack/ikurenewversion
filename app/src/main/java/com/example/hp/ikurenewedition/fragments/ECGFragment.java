@@ -45,6 +45,7 @@ public class ECGFragment extends android.support.v4.app.Fragment implements Swip
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_ecg, container, false);
         pid = getActivity().getIntent().getStringExtra("patient");
+        EcgListView = (ListView) rootView.findViewById(R.id.list_of_ecg);
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(
@@ -76,7 +77,7 @@ public class ECGFragment extends android.support.v4.app.Fragment implements Swip
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No ECG record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "No ECG record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //getActivity().finish();
         //startActivity(i);
@@ -112,7 +113,7 @@ public class ECGFragment extends android.support.v4.app.Fragment implements Swip
                             }
                             ecgAdapter = new EcgAdapter(getContext(), dy);
 
-                            EcgListView = (ListView) rootView.findViewById(R.id.list_of_ecg);
+
                             try {
                                 EcgListView.setAdapter(ecgAdapter);
                             } catch (NullPointerException e) {
@@ -132,6 +133,7 @@ public class ECGFragment extends android.support.v4.app.Fragment implements Swip
                                 k.putExtra("id", url);
                                 //k.putExtra("card_no",patient);
                                 startActivity(k);
+                                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                                 // pass the intent here
                             }
                         });

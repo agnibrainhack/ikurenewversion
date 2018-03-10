@@ -4,6 +4,7 @@
     xmlns:fab="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/abstractback"
     android:orientation="vertical">
 
     <TextView
@@ -13,6 +14,7 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="Blood Pressure Reports"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold" />
 

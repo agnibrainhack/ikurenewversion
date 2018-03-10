@@ -19,6 +19,9 @@ public class CheckupDetails {
     @SerializedName("message")
     @Expose
     private String message;
+    @SerializedName("pendinglist")
+    @Expose
+    private List<Pendinglist> pendinglist = null;
 
     public List<Checkupreqlist> getCheckupreqlist() {
         return checkupreqlist;
@@ -44,4 +47,11 @@ public class CheckupDetails {
         this.message = message;
     }
 
+    public List<Pendinglist> getPendinglist() {
+        return pendinglist;
+    }
+
+    public void setPendinglist(List<Pendinglist> pendinglist) {
+        this.pendinglist = pendinglist;
+    }
 }

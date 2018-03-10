@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">iKureNew</string>
+    <string name="app_name">iKure</string>
 
     <string name="alert.api.211">Input fields missing</string>
     <string name="alert.api.212">Session expired. Please relogin</string>

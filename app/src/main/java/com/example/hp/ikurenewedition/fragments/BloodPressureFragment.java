@@ -52,6 +52,7 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
          rootView = inflater.inflate(R.layout.activity_blood_pressure, container, false);
         k1 = 0;
         pid = getActivity().getIntent().getStringExtra("patient");
+        BpListView = (ListView) rootView.findViewById(R.id.list_of_pressure);
         floatingactionbutton = rootView.findViewById(R.id.pressure_graph);
         floatingactionbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +64,7 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
                 k.putExtra("timestamp", timestamp);
                 k.putExtra("pid", pid);
                 startActivity(k);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
         });
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
@@ -95,7 +97,7 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "No BP record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);
@@ -143,7 +145,7 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
                             //obj = new PassingThrough(diab_fasting, diab_fasting_date, diab_pp, diab_pp_date, diab_random, diab_random_date);
                             bpAdapter = new BpAdapter(getContext(), dy);
 
-                            BpListView = (ListView) rootView.findViewById(R.id.list_of_pressure);
+
                             try {
                                 BpListView.setAdapter(bpAdapter);
                             } catch (NullPointerException e) {

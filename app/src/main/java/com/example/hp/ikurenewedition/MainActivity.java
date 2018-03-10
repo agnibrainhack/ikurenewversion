@@ -10,7 +10,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final long SPLASH_DISPLAY_LENGTH = 900;
+    private static final long SPLASH_DISPLAY_LENGTH = 1500;
     Button buttonScan;
     IntentIntegrator qrScan;
     int times =0;
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent mainIntent = new Intent(MainActivity.this, AfterSplash.class);
                 times++;
                 startActivity(mainIntent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                 finish();
             }
         }, SPLASH_DISPLAY_LENGTH);

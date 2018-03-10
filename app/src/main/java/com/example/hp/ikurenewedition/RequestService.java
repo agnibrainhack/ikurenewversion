@@ -4,25 +4,34 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.hp.ikurenewedition.adapters.CheckupAdapter;
+import com.example.hp.ikurenewedition.dataclass.Data_class_six;
+import com.example.hp.ikurenewedition.pojodatamodels.CheckupDetails;
 import com.example.hp.ikurenewedition.pojodatamodels.DataUpload;
 import com.example.hp.ikurenewedition.pojodatamodels.SendData;
 import com.example.hp.ikurenewedition.rest.ApiClient;
+import com.example.hp.ikurenewedition.rest.ApiInterface;
 import com.example.hp.ikurenewedition.rest.ApiInterface1;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,22 +43,33 @@ import retrofit2.Response;
 
 public class RequestService extends AppCompatActivity {
 
+    Button date1, date2, date3, date4, date5;
+    Button time1, time2, time3, time4, time5;
+    Button submit1, submit2, submit3, submit4, submit5;  //for any developer who is going to work on this project, plz use butterknife for this implementation
+    CardView cardView1, cardView2, cardView3, cardView4, cardView5, cardView6;
+    Calendar dateSelected = Calendar.getInstance();
+    Button selected;
     private Intent i;
     private String pid;
     private ProgressDialog progressDialog;
     private String timestamp;
     private String request_type_send;
-    Button date1,date2,date3,date4,date5;
-    Button time1,time2,time3,time4,time5;
-    Button submit1,submit2,submit3,submit4,submit5;  //for any developer who is going to work on this project, plz use butterknife for this implementation
-    CardView cardView1,cardView2,cardView3,cardView4,cardView5;
-    Calendar dateSelected = Calendar.getInstance();
     private DatePickerDialog datePickerDialog;
     private DateTimeFormatter dateFormatter;
     private  int year,month,day;
     private Calendar calendar;
-    Button selected ;
+    private String[] pending = new String[5];
+    private DatePickerDialog.OnDateSetListener myDateListener1 = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker arg0, int ar1, int ar2, int arg3) {
 
+
+            showDate(ar1, ar2, arg3);
+
+
+            arg0.updateDate(ar1, ar2, arg3);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +77,7 @@ public class RequestService extends AppCompatActivity {
         setContentView(R.layout.activity_request_service);
         i = getIntent();
         pid = i.getStringExtra("pid");
+        //pending = i.getStringArrayExtra("block");
         //Toast.makeText(RequestService.this, pid, Toast.LENGTH_LONG).show();
         calendar=Calendar.getInstance();
         year=calendar.get(Calendar.YEAR);
@@ -85,7 +106,202 @@ public class RequestService extends AppCompatActivity {
         cardView3 = findViewById(R.id.card3);
         cardView4 = findViewById(R.id.card4);
         cardView5 = findViewById(R.id.card5);
+        cardView6 = findViewById(R.id.card6);
+        init();
 
+
+        submit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_date = date1.getText().toString();
+                String user_time = time1.getText().toString();
+                String combo = user_date + " " + user_time;
+                if (Objects.equals(user_date, "Select Date")) {
+                    Toast.makeText(RequestService.this, "Please select a Date before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (Objects.equals(user_time, "Set time") || Objects.equals(user_time, "Select Time again")) {
+                    Toast.makeText(RequestService.this, "Please select a Time before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date parsedDate = dateFormat.parse(combo);
+                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                    //String str = String.valueOf(timestamp.getTime());
+                    uploadToServer("ECG", String.valueOf(timestamp.getTime()), cardView1);
+                } catch (Exception e) { //this generic but you can control another types of exception
+                    // look the origin of excption
+                }
+
+            }
+        });
+        submit2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_date = date2.getText().toString();
+                String user_time = time2.getText().toString();
+                String combo = user_date + " " + user_time;
+                if (Objects.equals(user_date, "Select Date")) {
+                    Toast.makeText(RequestService.this, "Please select a Date before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (Objects.equals(user_time, "Set time") || Objects.equals(user_time, "Select Time again")) {
+                    Toast.makeText(RequestService.this, "Please select a Time before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date parsedDate = dateFormat.parse(combo);
+                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                    uploadToServer("Blood Pressure", String.valueOf(timestamp.getTime()), cardView2);
+                } catch (Exception e) { //this generic but you can control another types of exception
+                    // look the origin of excption
+                }
+
+            }
+        });
+
+        submit3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_date = date3.getText().toString();
+                String user_time = time3.getText().toString();
+                String combo = user_date + " " + user_time;
+                if (Objects.equals(user_date, "Select Date")) {
+                    Toast.makeText(RequestService.this, "Please select a Date before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (Objects.equals(user_time, "Set time") || Objects.equals(user_time, "Select Time again")) {
+                    Toast.makeText(RequestService.this, "Please select a Time before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date parsedDate = dateFormat.parse(combo);
+                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                    uploadToServer("Sugar Test", String.valueOf(timestamp.getTime()), cardView3);
+                } catch (Exception e) { //this generic but you can control another types of exception
+                    // look the origin of excption
+                }
+
+            }
+        });
+
+        submit4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_date = date4.getText().toString();
+                String user_time = time4.getText().toString();
+                String combo = user_date + " " + user_time;
+                if (Objects.equals(user_date, "Select Date")) {
+                    Toast.makeText(RequestService.this, "Please select a Date before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (Objects.equals(user_time, "Set time") || Objects.equals(user_time, "Select Time again")) {
+                    Toast.makeText(RequestService.this, "Please select a Time before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date parsedDate = dateFormat.parse(combo);
+                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                    uploadToServer("Vitals", String.valueOf(timestamp.getTime()), cardView4);
+                } catch (Exception e) { //this generic but you can control another types of exception
+                    // look the origin of excption
+                }
+
+            }
+        });
+
+        submit5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user_date = date5.getText().toString();
+                String user_time = time5.getText().toString();
+                String combo = user_date + " " + user_time;
+                if (Objects.equals(user_date, "Select Date")) {
+                    Toast.makeText(RequestService.this, "Please select a Date before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                if (Objects.equals(user_time, "Set time") || Objects.equals(user_time, "Select Time again")) {
+                    Toast.makeText(RequestService.this, "Please select a Time before requesting service", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                try {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                    Date parsedDate = dateFormat.parse(combo);
+                    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                    uploadToServer("Haemoglobin", String.valueOf(timestamp.getTime()), cardView5);
+                } catch (Exception e) { //this generic but you can control another types of exception
+                    // look the origin of excption
+                }
+
+            }
+        });
+
+        time1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time2.setText("Select Time");
+                time3.setText("Select Time");
+                time4.setText("Select Time");
+                time5.setText("Select Time");
+                getTimeFromUser(time1);
+
+
+            }
+        });
+
+        time2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time1.setText("Select Time");
+                time3.setText("Select Time");
+                time4.setText("Select Time");
+                time5.setText("Select Time");
+                getTimeFromUser(time2);
+            }
+        });
+        time3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time2.setText("Select Time");
+                time1.setText("Select Time");
+                time4.setText("Select Time");
+                time5.setText("Select Time");
+                getTimeFromUser(time3);
+            }
+        });
+
+        time4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time2.setText("Select Time");
+                time3.setText("Select Time");
+                time1.setText("Select Time");
+                time5.setText("Select Time");
+                getTimeFromUser(time4);
+            }
+        });
+        time5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                time2.setText("Select Time");
+                time3.setText("Select Time");
+                time4.setText("Select Time");
+                time1.setText("Select Time");
+                getTimeFromUser(time5);
+            }
+        });
         date1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +372,31 @@ public class RequestService extends AppCompatActivity {
 
     }
 
+    private void checktoblockviews() {
+        for (int i = 0; i < pending.length; i++) {
+            if (Objects.equals(pending[i], "ECG")) {
+                cardView1.setVisibility(View.GONE);
+            }
+            if (Objects.equals(pending[i], "Blood Pressure")) {
+                cardView2.setVisibility(View.GONE);
+            }
+            if (Objects.equals(pending[i], "Sugar Test")) {
+                cardView3.setVisibility(View.GONE);
+            }
+            if (Objects.equals(pending[i], "Vitals")) {
+                cardView4.setVisibility(View.GONE);
+            }
+            if (Objects.equals(pending[i], "Haemoglobin")) {
+                cardView5.setVisibility(View.GONE);
+            }
+
+        }
+        if (cardView1.getVisibility() == View.GONE && cardView2.getVisibility() == View.GONE && cardView3.getVisibility() == View.GONE
+                && cardView4.getVisibility() == View.GONE && cardView5.getVisibility() == View.GONE) {
+            cardView6.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected Dialog onCreateDialog(int id){
         if(id==999){
@@ -178,18 +419,38 @@ public class RequestService extends AppCompatActivity {
         return  null;
     }
 
+    public void getTimeFromUser(Button getbutton) {
+        final Button button;
+        button = getbutton;
+        final int[] selectedHourthis = new int[1];
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                String hour1 = String.valueOf(selectedHour);
+                String minute1 = String.valueOf(selectedMinute);
+                if (hour1.length() == 1) {
+                    hour1 = "0" + hour1;
+                }
+                if (minute1.length() == 1) {
+                    minute1 = "0" + minute1;
+                }
+                button.setText(hour1 + ":" + minute1);
+                selectedHourthis[0] = selectedHour;
+                if (selectedHourthis[0] < 10 || selectedHourthis[0] > 18) {
+                    Toast.makeText(RequestService.this, "Please Select a time between 10am to 6pm", Toast.LENGTH_LONG).show();
+                    button.setText("Select Time again");
+                }
+            }
+        }, hour, minute, false);
+        //mTimePicker.setTitle("");
+        mTimePicker.setTitle("Please select a time between 10AM and 6PM");
+        mTimePicker.show();
 
-    private DatePickerDialog.OnDateSetListener myDateListener1=new DatePickerDialog.OnDateSetListener(){
-        @Override
-        public void onDateSet(DatePicker arg0,int ar1,int ar2,int arg3 ){
-
-
-            showDate(ar1, ar2, arg3);
-
-
-            arg0.updateDate(ar1,ar2,arg3);
-        }
-    };
+    }
 
     private void showDate(int year,int month,int day){
             selected.setText(new StringBuilder().append(year).append("-").append(month+1).append("-").append(day));
@@ -208,16 +469,16 @@ public class RequestService extends AppCompatActivity {
 
     }
 
-    private void uploadToServer(){
+    private void uploadToServer(String type, String timestampsend, final CardView cardView) {
         progressDialog=new ProgressDialog(this);
         progressDialog.setMessage("Please Wait...."+'\n'+"We are figuring things out");
         progressDialog.setCancelable(false);
-
+        //cardView1.setVisibility(View.GONE);
         progressDialog.show();
         SendData snd = new SendData();
         snd.setId(pid);
-        snd.setTimestamp(timestamp);
-        snd.settype(request_type_send);
+        snd.setTimestamp(timestampsend);
+        snd.settype(type);
         ApiInterface1 apiService = ApiClient.getClient().create(ApiInterface1.class);
         Call<DataUpload> call = apiService.savePost(snd);
         call.enqueue(new Callback<DataUpload>() {
@@ -230,6 +491,7 @@ public class RequestService extends AppCompatActivity {
                 else if(!response.body().getError()) {
                     progressDialog.dismiss();
                     Toast.makeText(RequestService.this, "Uploaded successfully", Toast.LENGTH_LONG).show();
+                    cardView.setVisibility(View.GONE);
                     //Intent i = new Intent(OnePerson.this, AfterSplash.class);
                     //finish();
                     //startActivity(i);
@@ -245,6 +507,58 @@ public class RequestService extends AppCompatActivity {
             }
         });
     }
+
+    private void init() {
+        //retrofitRepository=new RetrofitRepository();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...." + '\n' + "We are figuring things out");
+        progressDialog.setCancelable(false);
+        callAPI1();
+    }
+
+
+    private void callAPI1() {
+        progressDialog.show();
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<CheckupDetails> call = apiService.getDetails11(pid);
+        call.enqueue(new Callback<CheckupDetails>() {
+            @Override
+            public void onResponse(Call<CheckupDetails> call, final Response<CheckupDetails> result) {
+                progressDialog.dismiss();
+                if (result.body().getError()) {
+                    bullshit();
+                } else {
+                    if (result.body().getCheckupreqlist().size() == 0) {
+                        bullshit();
+                    }
+                    if (result != null) {
+                        if (result.body().getCheckupreqlist().size() > 0) {
+                            for (int i = 0; i < result.body().getPendinglist().size(); i++) {
+                                pending[i] = result.body().getPendinglist().get(i).getType();
+
+                                //Toast.makeText(RequestService.this,pending[i],Toast.LENGTH_SHORT).show();
+                            }
+                            checktoblockviews();
+
+                        }
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<CheckupDetails> call, Throwable t) {
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+                bullshit();
+            }
+        });
+
+    }
+
+
     private String convert(String time) {
         long tim = Long.parseLong(time);
         tim = tim *1000;
@@ -253,4 +567,5 @@ public class RequestService extends AppCompatActivity {
 
         //return date;
     }
+
 }

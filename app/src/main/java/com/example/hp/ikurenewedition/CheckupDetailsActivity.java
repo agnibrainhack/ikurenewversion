@@ -2,10 +2,13 @@ package com.example.hp.ikurenewedition;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,9 +20,13 @@ import com.example.hp.ikurenewedition.dataclass.Data_class_four;
 import com.example.hp.ikurenewedition.dataclass.Data_class_seven;
 import com.example.hp.ikurenewedition.dataclass.Data_class_six;
 import com.example.hp.ikurenewedition.pojodatamodels.CheckupStatus;
+import com.example.hp.ikurenewedition.pojodatamodels.ConfirmService;
+import com.example.hp.ikurenewedition.pojodatamodels.DataUpload;
+import com.example.hp.ikurenewedition.pojodatamodels.SendData;
 import com.example.hp.ikurenewedition.pojodatamodels.SugarDetail;
 import com.example.hp.ikurenewedition.rest.ApiClient;
 import com.example.hp.ikurenewedition.rest.ApiInterface;
+import com.example.hp.ikurenewedition.rest.ApiInterface1;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -133,15 +140,25 @@ public class CheckupDetailsActivity extends AppCompatActivity implements SwipeRe
                     if (result.body().getVitalrequestdetails().size() != 0) {
                         checkupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //Toast.makeText(List_display.this,"Hello",Toast.LENGTH_SHORT).show();
-                                //String url = result.body().getVitallist().get(position).getTimestamp();
-                                //Intent k = new Intent(VitalsActivity.this, VitalsDetailsActivity.class);
-                                //String str = Integer.toString(position);
-                                //k.putExtra("pid", pid);
-                                //k.putExtra("timestamp", url);
-                                //startActivity(k);
-                                // pass the intent here
+                            public void onItemClick(final AdapterView<?> parent, View view, int position, long id) {
+                                final String id_upload = result.body().getVitalrequestdetails().get(position).getId();
+                                AlertDialog.Builder adb = new AlertDialog.Builder(
+                                        CheckupDetailsActivity.this);
+                                adb.setTitle("Service Provided?");
+                                adb.setMessage(" Select Yes if the service is provided");   //parent.getItemAtPosition(position)
+                                adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        uploadToServer(id_upload);
+                                    }
+                                });
+                                adb.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                                adb.show();
                             }
                         });
                     }
@@ -159,6 +176,44 @@ public class CheckupDetailsActivity extends AppCompatActivity implements SwipeRe
             }
         });
 
+    }
+
+
+    private void uploadToServer(String id) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...." + '\n' + "We are figuring things out");
+        progressDialog.setCancelable(false);
+        //cardView1.setVisibility(View.GONE);
+        progressDialog.show();
+        ConfirmService snd = new ConfirmService();
+        snd.setId(id);
+        ApiInterface1 apiService = ApiClient.getClient().create(ApiInterface1.class);
+        Call<DataUpload> call = apiService.savePost2(snd);
+        call.enqueue(new Callback<DataUpload>() {
+            @Override
+            public void onResponse(Call<DataUpload> call, Response<DataUpload> response) {
+                if (response.body().getError()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CheckupDetailsActivity.this, "Couldn't be uploaded Try again", Toast.LENGTH_LONG).show();
+                } else if (!response.body().getError()) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CheckupDetailsActivity.this, "Uploaded successfully", Toast.LENGTH_LONG).show();
+                    dy.clear();
+                    checkupListView.setAdapter(null);
+                    init();
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<DataUpload> call, Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(CheckupDetailsActivity.this, "Image couldn't be uploaded Try again", Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
     private String convert(String time) {

@@ -45,6 +45,7 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment implem
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_prescription, container, false);
         pid = getActivity().getIntent().getStringExtra("patient");
+        PresListView = (ListView) rootView.findViewById(R.id.list_of_pres);
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(
@@ -75,7 +76,7 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment implem
         callAPI1();
     }
     public void bullshit(){
-        Toast.makeText(getActivity(),"No Prescription record Found \nTry again",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "No Prescription record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);
@@ -117,7 +118,7 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment implem
                             }
                             presAdapter = new PresAdapter(getContext(), dy);
 
-                            PresListView = (ListView) rootView.findViewById(R.id.list_of_pres);
+
                             try {
                                 PresListView.setAdapter(presAdapter);
                             } catch (NullPointerException e) {
@@ -138,6 +139,7 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment implem
                                 k.putExtra("img", url);
                                 //k.putExtra("card_no",patient);
                                 startActivity(k);
+                                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                                 // pass the intent here
                             }
                         });

@@ -47,6 +47,7 @@ public class VitalsFragment extends android.support.v4.app.Fragment implements S
         rootView = inflater.inflate(R.layout.activity_vitals, container, false);
 
         pid = getActivity().getIntent().getStringExtra("patient");
+        EcgListView = (ListView) rootView.findViewById(R.id.list_of_ecg);
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(
@@ -77,7 +78,7 @@ public class VitalsFragment extends android.support.v4.app.Fragment implements S
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "No Vitals record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);
@@ -114,7 +115,7 @@ public class VitalsFragment extends android.support.v4.app.Fragment implements S
                             }
                             ecgAdapter = new EcgAdapter(getContext(), dy);
 
-                            EcgListView = (ListView) rootView.findViewById(R.id.list_of_ecg);
+
                             try {
                                 EcgListView.setAdapter(ecgAdapter);
                             } catch (NullPointerException e) {
@@ -134,6 +135,7 @@ public class VitalsFragment extends android.support.v4.app.Fragment implements S
                                 k.putExtra("pid", pid);
                                 k.putExtra("timestamp", url);
                                 startActivity(k);
+                                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                                 // pass the intent here
                             }
                         });

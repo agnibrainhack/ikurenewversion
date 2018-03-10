@@ -68,6 +68,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
         rootView = inflater.inflate(R.layout.activity_sugar, container, false);
         pid = getActivity().getIntent().getStringExtra("patient");
         floatingActionButtonfasting = rootView.findViewById(R.id.fast);
+        SugarListView = (ListView) rootView.findViewById(R.id.list_of_sugar);
         floatingActionButtonpp = rootView.findViewById(R.id.pp_render);
         k1 = k2 = k3 = 0;
         relativeLayout = rootView.findViewById(R.id.changerelative);
@@ -89,6 +90,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
                 k.putExtra("random_date", diab_random_date);
                 k.putExtra("pid", pid);
                 startActivity(k);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 
             }
         });
@@ -145,7 +147,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "No Sugar record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);
@@ -201,7 +203,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
                             //obj = new PassingThrough(diab_fasting, diab_fasting_date, diab_pp, diab_pp_date, diab_random, diab_random_date);
                             sugarAdapter = new SugarAdapter(getContext(), dy);
 
-                            SugarListView = (ListView) rootView.findViewById(R.id.list_of_sugar);
+
                             try {
                                 SugarListView.setAdapter(sugarAdapter);
                             } catch (NullPointerException e) {

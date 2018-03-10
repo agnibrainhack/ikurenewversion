@@ -5,6 +5,7 @@
     android:id="@+id/changerelative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/abstractback"
     android:orientation="vertical">
     <TextView
         android:id="@+id/header"
@@ -13,6 +14,7 @@
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
         android:text="Blood Sucrose Level Reports"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold" />
     <LinearLayout
@@ -29,6 +31,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Fasting"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"/>
 
         <TextView
@@ -37,6 +40,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text=" PP"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"/>
         <TextView
             android:layout_width="0dp"
@@ -44,6 +48,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Random"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"/>
     </LinearLayout>
 
@@ -61,6 +66,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="mg/dl"
+            android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
         <TextView
@@ -69,6 +75,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="mg/dl"
+            android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
         <TextView
@@ -77,6 +84,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="mg/dl"
+            android:textColor="#FFFFFF"
             android:textSize="14sp" />
     </LinearLayout>
 

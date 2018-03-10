@@ -6,10 +6,14 @@ package com.example.hp.ikurenewedition.dataclass;
 
 public class Data_class_six {
     private String date = "";
+    private String type = "";
+    private String status = "";
 
 
-    public Data_class_six(String date) {
+    public Data_class_six(String date, String type, String status) {
         this.date = date;
+        this.type = type;
+        this.status = status;
 
 
     }
@@ -19,5 +23,12 @@ public class Data_class_six {
         return date;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 
 }

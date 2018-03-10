@@ -1,5 +1,6 @@
 package com.example.hp.ikurenewedition.rest;
 
+import com.example.hp.ikurenewedition.pojodatamodels.ConfirmService;
 import com.example.hp.ikurenewedition.pojodatamodels.DataUpload;
 import com.example.hp.ikurenewedition.pojodatamodels.SendData;
 
@@ -22,5 +23,7 @@ public interface ApiInterface1 {
     @POST("vital/createcheckuprequest")
     Call<DataUpload> savePost(@Body SendData data);
 
+    @POST("vital/editrequeststatus")
+    Call<DataUpload> savePost2(@Body ConfirmService data);
 
 }

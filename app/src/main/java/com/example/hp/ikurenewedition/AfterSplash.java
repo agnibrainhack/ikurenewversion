@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -56,7 +58,7 @@ public class AfterSplash extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if(!transfer)
-                qrScan.initiateScan();
+                    qrScan.initiateScan();
                 else if(transfer) {
                     String patient = String.valueOf(editText.getText());
                     Intent intent = new Intent(AfterSplash.this,NetworkActivity.class);
@@ -115,21 +117,20 @@ public class AfterSplash extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-           // Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();// do your work here
-           if(times == 0) {
-               buttonScan.setText("Check Details");
-               editText.setVisibility(View.VISIBLE);
-               transfer = true;
-               item.setTitle("Login By Scanning The QR");
-               times++;
-           }
-           else if(times != 0){
-               buttonScan.setText("Scan QR");
-               editText.setVisibility(View.INVISIBLE);
-               transfer = false;
-               item.setTitle("Login with your card number");
-               times = 0;
-           }
+            // Toast.makeText(this, "Result Not Found", Toast.LENGTH_LONG).show();// do your work here
+            if (times == 0) {
+                buttonScan.setText("Check Details");
+                editText.setVisibility(View.VISIBLE);
+                transfer = true;
+                item.setTitle("Login By Scanning The QR");
+                times++;
+            } else if (times != 0) {
+                buttonScan.setText("Scan QR");
+                editText.setVisibility(View.INVISIBLE);
+                transfer = false;
+                item.setTitle("Login with your card number");
+                times = 0;
+            }
 
 
         }
@@ -143,22 +144,22 @@ public class AfterSplash extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-         if (id == R.id.block) {
-             if(isPermissionGranted()){
-                 call_action("9153518429");
-             }
+        if (id == R.id.block) {
+            if (isPermissionGranted()) {
+                call_action("9153518429");
+            }
 
         } else if (id == R.id.check) {
-             if(isPermissionGranted()){
-                 call_action("03340634188");
-             }
+            if (isPermissionGranted()) {
+                call_action("03340634188");
+            }
 
 
         }  else if (id == R.id.more) {
-             String url = "http://www.ikuretechsoft.com/";
-             Intent i = new Intent(Intent.ACTION_VIEW);
-             i.setData(Uri.parse(url));
-             startActivity(i);
+            String url = "http://www.ikuretechsoft.com/";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
 
         }
 
@@ -236,8 +237,10 @@ public class AfterSplash extends AppCompatActivity
 
                 Intent intent = new Intent(AfterSplash.this,NetworkActivity.class);
                 intent.putExtra("Patient_no",result.getContents());
-                finish();
+
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                finish();
                 //Toast.makeText(this, "Result Found", Toast.LENGTH_LONG).show();
             }
         } else {

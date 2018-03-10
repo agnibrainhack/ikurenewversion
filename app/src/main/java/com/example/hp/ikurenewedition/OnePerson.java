@@ -2,6 +2,7 @@ package com.example.hp.ikurenewedition;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -49,13 +50,16 @@ public class OnePerson extends AppCompatActivity {
     // The ViewPager is responsible for sliding pages (fragments) in and out upon user input
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person);
-
+        Intent intent = getIntent();
+        String patient = intent.getStringExtra("patient_name");
         // Set the Toolbar as the activity's app bar (instead of the default ActionBar)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(patient);
         setSupportActionBar(toolbar);
 
         // Connect the ViewPager to our custom PagerAdapter. The PagerAdapter supplies the pages

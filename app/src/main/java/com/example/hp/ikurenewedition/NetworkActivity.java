@@ -115,11 +115,14 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             //Toast.makeText(List_display.this,"Hello",Toast.LENGTH_SHORT).show();
                             String url=result.body().getPatientlist().get(position).getPid();
+                            String name = result.body().getPatientlist().get(position).getName();
                             Intent k=new Intent( NetworkActivity.this,OnePerson.class);
                             //String str = Integer.toString(position);
                             k.putExtra("patient",url);
                             k.putExtra("card_no",patient);
+                            k.putExtra("patient_name", name);
                             startActivity(k);
+                            overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                             // pass the intent here
                         }
                     });

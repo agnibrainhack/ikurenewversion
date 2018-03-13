@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiClient {
-    public static final String BASE_URL = "http://ikurelive.com/app/prescription/api/";
+    public static final String BASE_URL = "urlhere";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(){

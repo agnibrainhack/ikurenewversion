@@ -28,6 +28,7 @@ import com.example.hp.ikurenewedition.rest.ApiInterface1;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -95,7 +96,7 @@ public class CheckupFragment extends android.support.v4.app.Fragment implements 
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No Checkup record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "No Checkup record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //getActivity().finish();
         //startActivity(i);
@@ -149,26 +150,29 @@ public class CheckupFragment extends android.support.v4.app.Fragment implements 
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 //Toast.makeText(List_display.this,"Hello",Toast.LENGTH_SHORT).show();
-                                String url = result.body().getCheckupreqlist().get(position).getId();
-                                String time = result.body().getCheckupreqlist().get(position).getTimestamp();
-                                final String id_upload = result.body().getCheckupreqlist().get(position).getId();
-                                AlertDialog.Builder adb = new AlertDialog.Builder(
-                                        getActivity());
-                                adb.setTitle("Service Provided?");
-                                adb.setMessage(" Select Yes if the service is provided");   //parent.getItemAtPosition(position)
-                                adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        uploadToServer(id_upload);
-                                    }
-                                });
-                                adb.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                if (!Objects.equals(result.body().getCheckupreqlist().get(position).getStatus(), "Done")) {
+                                    String url = result.body().getCheckupreqlist().get(position).getId();
+                                    String time = result.body().getCheckupreqlist().get(position).getTimestamp();
+                                    final String id_upload = result.body().getCheckupreqlist().get(position).getId();
 
-                                    }
-                                });
-                                adb.show();// pass the intent here
+                                    AlertDialog.Builder adb = new AlertDialog.Builder(
+                                            getActivity());
+                                    adb.setTitle("Service Provided?");
+                                    adb.setMessage(" Select Yes if the service is provided");   //parent.getItemAtPosition(position)
+                                    adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            uploadToServer(id_upload);
+                                        }
+                                    });
+                                    adb.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    });
+                                    adb.show();// pass the intent here
+                                }
                             }
                         });
                     }

@@ -71,11 +71,15 @@ public class Diabetes_Graph_Random extends AppCompatActivity implements OnChartG
         Collections.reverse(random);
         Collections.reverse(random_date);
 
-        greatest = Float.parseFloat(random.get(0));
-        for (int j = 0; j < random.size(); j++) {
-            if (Float.parseFloat(random.get(j)) > greatest) {
-                greatest = Float.parseFloat(random.get(j));
+        try {
+            greatest = Float.parseFloat(random.get(0));
+            for (int j = 0; j < random.size(); j++) {
+                if (Float.parseFloat(random.get(j)) > greatest) {
+                    greatest = Float.parseFloat(random.get(j));
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 

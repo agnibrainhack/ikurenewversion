@@ -2,9 +2,11 @@ package com.example.hp.ikurenewedition.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,11 +64,13 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
     private View floatingActionButtonrandom;
     private String[] r_d = new String[5];
     private boolean start;
+    private String patient_name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_sugar, container, false);
         pid = getActivity().getIntent().getStringExtra("patient");
+        patient_name = getActivity().getIntent().getStringExtra("patient_name");
         floatingActionButtonfasting = rootView.findViewById(R.id.fast);
         SugarListView = (ListView) rootView.findViewById(R.id.list_of_sugar);
         floatingActionButtonpp = rootView.findViewById(R.id.pp_render);
@@ -105,6 +109,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
                 k.putExtra("pp_date", diab_pp_date);
                 k.putExtra("pid", pid);
                 startActivity(k);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
 
             }
         });
@@ -120,6 +125,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
                 k.putExtra("fasting_date", diab_fasting_date);
                 k.putExtra("pid", pid);
                 startActivity(k);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
         });
         init();
@@ -147,7 +153,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No Sugar record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "No Sugar record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);
@@ -170,8 +176,7 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
                     swipeRefreshLayout.setRefreshing(false);
                 if(result.body().getError()){
                     bullshit();
-                }
-                else {
+                } else {
                     if (result.body().getSugarlist().size() == 0) {
                         bullshit();
                     }
@@ -215,15 +220,36 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
                     if (result.body().getSugarlist().size() != 0) {
                         SugarListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //Toast.makeText(List_display.this,"Hello",Toast.LENGTH_SHORT).show();
-                                //String url = result.body().getVitallist().get(position).getTimestamp();
-                                //Intent k = new Intent(VitalsActivity.this, VitalsDetailsActivity.class);
-                                //String str = Integer.toString(position);
-                                //k.putExtra("pid", pid);
-                                //k.putExtra("timestamp", url);
-                                //startActivity(k);
-                                // pass the intent here
+                            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                                AlertDialog.Builder adb = new AlertDialog.Builder(
+                                        getActivity());
+                                adb.setTitle("Share your Report On This Date?");
+                                adb.setMessage(" Select Yes to  Share");   //parent.getItemAtPosition(position)
+                                adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent sendIntent = new Intent();
+                                        sendIntent.setAction(Intent.ACTION_SEND);
+                                        String shareInfo = "Patient name:  " + patient_name + "\n" +
+                                                "Date:   " + convert1(result.body().getSugarlist().get(position).getTimestamp()) + "\n" +
+                                                "Time:   " + convert2(result.body().getSugarlist().get(position).getTimestamp()) + "\n" +
+                                                "Fasting: " + result.body().getSugarlist().get(position).getSugarFirst() + "\n" +
+                                                "PP:        " + result.body().getSugarlist().get(position).getSugarPp() + "\n" +
+                                                "Random: " + result.body().getSugarlist().get(position).getSugarRandom() + "\n";
+
+                                        sendIntent.putExtra(Intent.EXTRA_TEXT, shareInfo);
+                                        sendIntent.setType("text/plain");
+                                        startActivity(sendIntent);
+                                    }
+                                });
+                                adb.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                                adb.show();
                             }
                         });
                     }
@@ -242,10 +268,29 @@ public class BloodSugarFragment extends android.support.v4.app.Fragment implemen
         });
 
     }
+
     private String convert(String time) {
         long tim = Long.parseLong(time);
         tim = tim *1000;
         @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy" + "\n" + "HH:mm:ss");
+        return formatter.format(tim);
+
+        //return date;
+    }
+
+    private String convert1(String time) {
+        long tim = Long.parseLong(time);
+        tim = tim * 1000;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("d MMM yyyy");
+        return formatter.format(tim);
+
+        //return date;
+    }
+
+    private String convert2(String time) {
+        long tim = Long.parseLong(time);
+        tim = tim * 1000;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         return formatter.format(tim);
 
         //return date;

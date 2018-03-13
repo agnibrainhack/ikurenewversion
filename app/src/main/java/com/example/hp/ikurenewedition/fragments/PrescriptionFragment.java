@@ -76,7 +76,7 @@ public class PrescriptionFragment extends android.support.v4.app.Fragment implem
         callAPI1();
     }
     public void bullshit(){
-        Toast.makeText(getActivity(), "No Prescription record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "No Prescription record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);

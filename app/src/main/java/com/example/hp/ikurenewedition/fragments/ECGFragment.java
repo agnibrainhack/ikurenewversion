@@ -77,7 +77,7 @@ public class ECGFragment extends android.support.v4.app.Fragment implements Swip
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No ECG record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "No ECG record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //getActivity().finish();
         //startActivity(i);

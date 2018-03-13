@@ -30,6 +30,8 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.util.Objects;
+
 public class AfterSplash extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Button buttonScan;
@@ -61,12 +63,13 @@ public class AfterSplash extends AppCompatActivity
                     qrScan.initiateScan();
                 else if(transfer) {
                     String patient = String.valueOf(editText.getText());
-                    Intent intent = new Intent(AfterSplash.this,NetworkActivity.class);
-                    intent.putExtra("Patient_no",patient);
-                    finish();
-                    startActivity(intent);
-
-                    //Toast.makeText(AfterSplash.this, "Ok working",Toast.LENGTH_LONG).show();
+                    if (!Objects.equals(patient, "")) {
+                        Intent intent = new Intent(AfterSplash.this, NetworkActivity.class);
+                        intent.putExtra("Patient_no", patient);
+                        finish();
+                        startActivity(intent);
+                    } else
+                        Toast.makeText(AfterSplash.this, "Sorry Plz Enter a Valid Card No First", Toast.LENGTH_LONG).show();
                 }
             }
         });

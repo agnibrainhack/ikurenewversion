@@ -26,12 +26,15 @@ import com.example.hp.ikurenewedition.rest.ApiInterface;
 import com.example.hp.ikurenewedition.rest.ApiInterface1;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +62,8 @@ public class RequestService extends AppCompatActivity {
     private  int year,month,day;
     private Calendar calendar;
     private String[] pending = new String[5];
+    private int globalvarday;
+    private String glovarall;
     private DatePickerDialog.OnDateSetListener myDateListener1 = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker arg0, int ar1, int ar2, int arg3) {
@@ -132,6 +137,10 @@ public class RequestService extends AppCompatActivity {
                     Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
                     //String str = String.valueOf(timestamp.getTime());
                     uploadToServer("ECG", String.valueOf(timestamp.getTime()), cardView1);
+                    if (cardView1.getVisibility() == View.GONE && cardView2.getVisibility() == View.GONE && cardView3.getVisibility() == View.GONE
+                            && cardView4.getVisibility() == View.GONE && cardView5.getVisibility() == View.GONE) {
+                        cardView6.setVisibility(View.VISIBLE);
+                    }
                 } catch (Exception e) { //this generic but you can control another types of exception
                     // look the origin of excption
                 }
@@ -158,6 +167,10 @@ public class RequestService extends AppCompatActivity {
                     Date parsedDate = dateFormat.parse(combo);
                     Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
                     uploadToServer("Blood Pressure", String.valueOf(timestamp.getTime()), cardView2);
+                    if (cardView1.getVisibility() == View.GONE && cardView2.getVisibility() == View.GONE && cardView3.getVisibility() == View.GONE
+                            && cardView4.getVisibility() == View.GONE && cardView5.getVisibility() == View.GONE) {
+                        cardView6.setVisibility(View.VISIBLE);
+                    }
                 } catch (Exception e) { //this generic but you can control another types of exception
                     // look the origin of excption
                 }
@@ -185,6 +198,10 @@ public class RequestService extends AppCompatActivity {
                     Date parsedDate = dateFormat.parse(combo);
                     Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
                     uploadToServer("Sugar Test", String.valueOf(timestamp.getTime()), cardView3);
+                    if (cardView1.getVisibility() == View.GONE && cardView2.getVisibility() == View.GONE && cardView3.getVisibility() == View.GONE
+                            && cardView4.getVisibility() == View.GONE && cardView5.getVisibility() == View.GONE) {
+                        cardView6.setVisibility(View.VISIBLE);
+                    }
                 } catch (Exception e) { //this generic but you can control another types of exception
                     // look the origin of excption
                 }
@@ -213,6 +230,10 @@ public class RequestService extends AppCompatActivity {
                     Date parsedDate = dateFormat.parse(combo);
                     Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
                     uploadToServer("Vitals", String.valueOf(timestamp.getTime()), cardView4);
+                    if (cardView1.getVisibility() == View.GONE && cardView2.getVisibility() == View.GONE && cardView3.getVisibility() == View.GONE
+                            && cardView4.getVisibility() == View.GONE && cardView5.getVisibility() == View.GONE) {
+                        cardView6.setVisibility(View.VISIBLE);
+                    }
                 } catch (Exception e) { //this generic but you can control another types of exception
                     // look the origin of excption
                 }
@@ -241,6 +262,10 @@ public class RequestService extends AppCompatActivity {
                     Date parsedDate = dateFormat.parse(combo);
                     Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
                     uploadToServer("Haemoglobin", String.valueOf(timestamp.getTime()), cardView5);
+                    if (cardView1.getVisibility() == View.GONE && cardView2.getVisibility() == View.GONE && cardView3.getVisibility() == View.GONE
+                            && cardView4.getVisibility() == View.GONE && cardView5.getVisibility() == View.GONE) {
+                        cardView6.setVisibility(View.VISIBLE);
+                    }
                 } catch (Exception e) { //this generic but you can control another types of exception
                     // look the origin of excption
                 }
@@ -255,7 +280,10 @@ public class RequestService extends AppCompatActivity {
                 time3.setText("Select Time");
                 time4.setText("Select Time");
                 time5.setText("Select Time");
-                getTimeFromUser(time1);
+                if (!Objects.equals(date1.getText().toString(), "Select Date"))
+                    getTimeFromUser(time1);
+                else
+                    Toast.makeText(RequestService.this, "Sorry Enter Date First", Toast.LENGTH_LONG).show();
 
 
             }
@@ -268,7 +296,11 @@ public class RequestService extends AppCompatActivity {
                 time3.setText("Select Time");
                 time4.setText("Select Time");
                 time5.setText("Select Time");
-                getTimeFromUser(time2);
+                if (!Objects.equals(date2.getText().toString(), "Select Date"))
+                    getTimeFromUser(time2);
+                else
+                    Toast.makeText(RequestService.this, "Sorry Enter Date First", Toast.LENGTH_LONG).show();
+
             }
         });
         time3.setOnClickListener(new View.OnClickListener() {
@@ -278,7 +310,11 @@ public class RequestService extends AppCompatActivity {
                 time1.setText("Select Time");
                 time4.setText("Select Time");
                 time5.setText("Select Time");
-                getTimeFromUser(time3);
+                if (!Objects.equals(date3.getText().toString(), "Select Date"))
+                    getTimeFromUser(time3);
+                else
+                    Toast.makeText(RequestService.this, "Sorry Enter Date First", Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -289,7 +325,11 @@ public class RequestService extends AppCompatActivity {
                 time3.setText("Select Time");
                 time1.setText("Select Time");
                 time5.setText("Select Time");
-                getTimeFromUser(time4);
+                if (!Objects.equals(date4.getText().toString(), "Select Date"))
+                    getTimeFromUser(time4);
+                else
+                    Toast.makeText(RequestService.this, "Sorry Enter Date First", Toast.LENGTH_LONG).show();
+
             }
         });
         time5.setOnClickListener(new View.OnClickListener() {
@@ -299,7 +339,11 @@ public class RequestService extends AppCompatActivity {
                 time3.setText("Select Time");
                 time4.setText("Select Time");
                 time1.setText("Select Time");
-                getTimeFromUser(time5);
+                if (!Objects.equals(date5.getText().toString(), "Select Date"))
+                    getTimeFromUser(time5);
+                else
+                    Toast.makeText(RequestService.this, "Sorry Enter Date First", Toast.LENGTH_LONG).show();
+
             }
         });
         date1.setOnClickListener(new View.OnClickListener() {
@@ -422,6 +466,33 @@ public class RequestService extends AppCompatActivity {
     public void getTimeFromUser(Button getbutton) {
         final Button button;
         button = getbutton;
+
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("HH");
+        DateFormat date2 = new SimpleDateFormat("d");
+        DateFormat date3 = new SimpleDateFormat("SS");
+
+        date.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+        date2.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+        date3.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+
+        String localTime = date.format(currentLocalTime);
+        String localdate = date2.format(currentLocalTime);
+        String localmin = date3.format(currentLocalTime);
+
+        final int localhour = Integer.parseInt(localTime);
+        final int localday = Integer.parseInt(localdate);
+        final int localmiute = Integer.parseInt(localmin);
+
+
+
+
+
+
+
+
+
         final int[] selectedHourthis = new int[1];
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
@@ -432,6 +503,19 @@ public class RequestService extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 String hour1 = String.valueOf(selectedHour);
                 String minute1 = String.valueOf(selectedMinute);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                Date parsedDate = null;
+                try {
+                    parsedDate = dateFormat.parse(glovarall + " " + hour1 + ":" + minute1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                long timenowselected = timestamp.getTime();
+
+
+
                 if (hour1.length() == 1) {
                     hour1 = "0" + hour1;
                 }
@@ -439,11 +523,22 @@ public class RequestService extends AppCompatActivity {
                     minute1 = "0" + minute1;
                 }
                 button.setText(hour1 + ":" + minute1);
+
+
                 selectedHourthis[0] = selectedHour;
                 if (selectedHourthis[0] < 10 || selectedHourthis[0] > 18) {
                     Toast.makeText(RequestService.this, "Please Select a time between 10am to 6pm", Toast.LENGTH_LONG).show();
                     button.setText("Select Time again");
                 }
+                if (selectedHourthis[0] < localhour && localday == globalvarday) {
+                    Toast.makeText(RequestService.this, "Please Select a date in Future", Toast.LENGTH_LONG).show();
+                    button.setText("Select Time again");
+                }
+                if (timenowselected < System.currentTimeMillis()) {
+                    Toast.makeText(RequestService.this, "Please Select a date in Future", Toast.LENGTH_LONG).show();
+                    button.setText("Select Time again");
+                }
+
             }
         }, hour, minute, false);
         //mTimePicker.setTitle("");
@@ -453,8 +548,10 @@ public class RequestService extends AppCompatActivity {
     }
 
     private void showDate(int year,int month,int day){
-            selected.setText(new StringBuilder().append(year).append("-").append(month+1).append("-").append(day));
+        globalvarday = day;
 
+        selected.setText(new StringBuilder().append(year).append("-").append(month + 1).append("-").append(day));
+        glovarall = selected.getText().toString();
 
     }
 
@@ -462,7 +559,7 @@ public class RequestService extends AppCompatActivity {
 
 
     public void bullshit(){
-        Toast.makeText(RequestService.this,"Network Error \nTry again",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(RequestService.this,"Network Error \nTry again",Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(RequestService.this,NetworkActivity.class);
         //finish();
         //startActivity(i);

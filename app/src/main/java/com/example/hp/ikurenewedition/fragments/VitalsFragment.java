@@ -78,7 +78,7 @@ public class VitalsFragment extends android.support.v4.app.Fragment implements S
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No Vitals record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "No Vitals record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);

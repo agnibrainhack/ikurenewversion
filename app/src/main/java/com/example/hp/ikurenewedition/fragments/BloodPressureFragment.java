@@ -2,9 +2,11 @@ package com.example.hp.ikurenewedition.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +48,14 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
     private ArrayList<String> timestamp = new ArrayList<>();
     private View floatingactionbutton;
     private boolean start;
+    private String patient_name;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          rootView = inflater.inflate(R.layout.activity_blood_pressure, container, false);
         k1 = 0;
         pid = getActivity().getIntent().getStringExtra("patient");
+        patient_name = getActivity().getIntent().getStringExtra("patient_name");
         BpListView = (ListView) rootView.findViewById(R.id.list_of_pressure);
         floatingactionbutton = rootView.findViewById(R.id.pressure_graph);
         floatingactionbutton.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +101,7 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
     }
 
     public void bullshit() {
-        Toast.makeText(getActivity(), "No BP record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "No BP record Found \nIf You have taken any test then wait for 24hrs", Toast.LENGTH_SHORT).show();
         //Intent i=new Intent(NetworkActivity.this,MainActivity.class);
         //finish();
         //startActivity(i);
@@ -157,15 +161,34 @@ public class BloodPressureFragment extends android.support.v4.app.Fragment imple
                     if (result.body().getBplist().size() != 0) {
                         BpListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                //Toast.makeText(List_display.this,"Hello",Toast.LENGTH_SHORT).show();
-                                //String url = result.body().getVitallist().get(position).getTimestamp();
-                                //Intent k = new Intent(VitalsActivity.this, VitalsDetailsActivity.class);
-                                //String str = Integer.toString(position);
-                                //k.putExtra("pid", pid);
-                                //k.putExtra("timestamp", url);
-                                //startActivity(k);
-                                // pass the intent here
+                            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                                AlertDialog.Builder adb = new AlertDialog.Builder(
+                                        getActivity());
+                                adb.setTitle("Share your Report On This Date?");
+                                adb.setMessage(" Select Yes to  Share");   //parent.getItemAtPosition(position)
+                                adb.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Intent sendIntent = new Intent();
+                                        sendIntent.setAction(Intent.ACTION_SEND);
+                                        String shareInfo = "Patient name:  " + patient_name + "\n" +
+                                                "Date:   " + convert(result.body().getBplist().get(position).getTimestamp()) + "\n" +
+                                                "Time:   " + convert1(result.body().getBplist().get(position).getTimestamp()) + "\n" +
+                                                "Systolic: " + result.body().getBplist().get(position).getSys() + "\n" +
+                                                "Diastolic: " + result.body().getBplist().get(position).getDia() + "\n";
+
+                                        sendIntent.putExtra(Intent.EXTRA_TEXT, shareInfo);
+                                        sendIntent.setType("text/plain");
+                                        startActivity(sendIntent);
+                                    }
+                                });
+                                adb.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                });
+                                adb.show();
                             }
                         });
                     }
